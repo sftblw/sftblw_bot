@@ -3,7 +3,7 @@ var schedule = require('node-schedule');
 var T = require('./common/tweetInstance');
 var dirVisit = require("./common/directoryVisitor");
 var fs = require('fs');
-
+var poster = require('./common/postAvoidDuplicate');
 var die = require('./common/die');
 
 //var baseDir = "/media/networkshare/ccwpc/DaumCloud/사진/desktop/짤방";
@@ -13,7 +13,7 @@ var die = require('./common/die');
 function RandomImagePoster(dir, format, command, callback) {
   this.baseDir = dir;
   this.format = format;
-  this.imgList = makeImageFileList([".png", ".jpg"], dir);
+  this.imgList = makeImageFileList(format, dir);
   this.post = function (msg) {
     if(filter.isMention(msg, "sftblw")
       && (msg.text.search(command) !== -1)
@@ -55,6 +55,24 @@ var posterManager = {
   postAll: function (msg) {
     for (var i = 0; i < this.posters.length; i++) {
       this.posters[i].post(msg);
+    }
+  },
+  updateAll: function () {
+    for (var i = 0; i < this.posters.length; i++) {
+      this.posters[i].imgList = makeImageFileList(this.posters[i].format, this.posters[i].baseDir);
+    }
+    poster("씨에이치-봇이 이미지 목록을 모두 갱신해씁니다. @sftblw");
+  },
+  processAll: function (msg) {
+    // 목록 갱신 요청시.
+    if(filter.isMention(msg, "sftblw")
+      && (msg.text.search("목록갱신") !== -1)
+      && (!filter.isRetweet(msg)))
+    {
+      this.updateAll();
+      return;
+    } else {
+      this.postAll(msg);
     }
   }
 }
