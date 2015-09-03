@@ -1,6 +1,7 @@
 var filter = require('./common/filterTweet');
 var schedule = require('node-schedule');
 var T = require('./common/tweetInstance');
+var die = require('./common/die');
 
 module.exports = function (msg) {
     //console.dir(msg, {depth:0, colors: true});
@@ -41,7 +42,7 @@ function placeHolderJob(msg) {
     countTimeOutCall("메롱", msg.user.screen_name, function (waitValue) {
       T.post('statuses/update', {status: "@" + msg.user.screen_name + " 야호! [" + waitValue + "]", in_reply_to_status_id: msg.id_str  }
       , function (err, data, response) {
-          if (err) console.log(err);
+          if (err) die(err);
       });
     });
 
@@ -52,7 +53,7 @@ function placeHolderJob(msg) {
       T.post('statuses/update', {status: "@" + msg.user.screen_name + " 고만하세요 [" + waitValue + "]", in_reply_to_status_id: msg.id_str  }
       , function (err, data, response) {
           // console.log("posted");
-          if (err) console.log(err);
+          if (err) die(err);
       });
       //console.log("wow");
     });

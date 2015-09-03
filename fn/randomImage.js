@@ -4,17 +4,75 @@ var T = require('./common/tweetInstance');
 var dirVisit = require("./common/directoryVisitor");
 var fs = require('fs');
 
-var baseDir = "/media/networkshare/ccwpc/DaumCloud/사진/desktop/짤방";
+var die = require('./common/die');
+
+//var baseDir = "/media/networkshare/ccwpc/DaumCloud/사진/desktop/짤방";
 //var baseDir = "D:/Clouds/DaumCloud/사진/desktop/짤방";
-var imgList = (function () {
+
+//console.dir(imgList);
+function RandomImagePoster(dir, format, command, callback) {
+  this.baseDir = dir;
+  this.format = format;
+  this.imgList = makeImageFileList([".png", ".jpg"], dir);
+  this.post = function (msg) {
+    if(filter.isMention(msg, "sftblw")
+      && (msg.text.search(command) !== -1)
+      && (!filter.isRetweet(msg)))
+    {
+
+      imgFile = this.imgList[Math.floor(Math.random()*this.imgList.length)];
+      var b64img = fs.readFileSync(imgFile.dir, {encoding: 'base64'});
+
+      // first we must post the media to Twitter
+      T.post('media/upload', { media_data: b64img }, function (err, data, response) {
+
+        // now we can reference the media and post a tweet (media will attach to the tweet)
+        var mediaIdStr = data.media_id_string
+        var params = { status: "@" + msg.user.screen_name + " " + imgFile.name, media_ids: [mediaIdStr], in_reply_to_status_id: msg.id_str };
+
+        T.post('statuses/update', params, function (err, data, response) {
+          //console.log(data)
+          if (err) {
+            die(err);
+          }
+        });
+      });
+    }
+    // if end
+  };
+  // post function end
+  if (callback !== undefined) {
+    callback(msg);
+  }
+}
+
+
+var posterManager = {
+  newRandomImagePoster : function (dir, format, command, callback) {
+    this.posters.push(new RandomImagePoster(dir, format, command, callback));
+  },
+  posters: [],
+  postAll: function (msg) {
+    for (var i = 0; i < this.posters.length; i++) {
+      this.posters[i].post(msg);
+    }
+  }
+}
+
+module.exports = posterManager;
+
+function makeImageFileList(format, baseDir) {
   var list = [];
   var onImgVisitor = {
     onVisitFile: function (file) {
       //console.log(file.format);
-      if (
-        (file.format === ".png") ||
-        (file.format === ".jpg")
-      ) {
+      var condition = false;
+      for(var i = 0; i < format.length; i++) {
+        if (file.format === format[i]) {
+          condition = true;
+        }
+      }
+      if (condition) {
         list.push(file);
       }
     }
@@ -24,31 +82,4 @@ var imgList = (function () {
   ImgVisitor.visit(rootDir);
   //console.dir(list);
   return list;
-})();
-
-//console.dir(imgList);
-
-module.exports = function (msg) {
-  if(filter.isMention(msg, "sftblw")) {
-    if (msg.text.search("짤방") !== -1) {
-      imgFile = imgList[Math.floor(Math.random()*imgList.length)];
-      //console.dir(imgFile);
-      // from website
-      var b64img = fs.readFileSync(imgFile.dir, {encoding: 'base64'});
-      // first we must post the media to Twitter
-      T.post('media/upload', { media_data: b64img }, function (err, data, response) {
-
-        // now we can reference the media and post a tweet (media will attach to the tweet)
-        var mediaIdStr = data.media_id_string
-        var params = { status: "@" + msg.user.screen_name + " " + imgFile.name, media_ids: [mediaIdStr] };
-
-        T.post('statuses/update', params, function (err, data, response) {
-          //console.log(data)
-          if (err) {
-            console.log(err);
-          }
-        });
-      });
-    }
-  }
-};
+}
