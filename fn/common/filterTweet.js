@@ -25,5 +25,12 @@ module.exports = {
         } else {
             return false;
         }
+    },
+    "fromUser": function (msg, fromUser) {
+      if (msg.user.screen_name === fromUser) {
+        return true;
+      } else {
+        return false;
+      }
     }
 };
