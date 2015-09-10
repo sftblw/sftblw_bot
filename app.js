@@ -16,8 +16,9 @@ poster("씨에이치-봇이 시작해씁니다. @sftblw");
 
 stream.on('tweet', function (msg) {
     //dummyMention(msg);
-    randomImage.processAll(msg);
-    //help(msg);
+    if (!help(msg)) {
+      randomImage.processAll(msg);
+    }
 });
 //
 //////////////////////////////////
@@ -35,5 +36,10 @@ randomImage.newRandomImagePoster(
 randomImage.newRandomImagePoster(
   baseDir + "anicap",
   commonFormat,
-  "애니캡처"
+  "캡처"
+);
+randomImage.newRandomImagePoster(
+  baseDir,
+  [".gif"],
+  "움짤"
 );
