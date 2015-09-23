@@ -1,5 +1,4 @@
 var filter = require('./common/filterTweet');
-var schedule = require('node-schedule');
 var T = require('./common/tweetInstance');
 var dirVisit = require("./common/directoryVisitor");
 var fs = require('fs');

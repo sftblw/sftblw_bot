@@ -1,5 +1,4 @@
 ﻿var T = require('./fn/common/tweetInstance');
-var randomImage = require('./fn/randomImage');
 var die = require('./fn/common/die');
 var help = require('./fn/help');
 //var dummyMention = require('./fn/dummyMention');
@@ -8,6 +7,8 @@ var poster = require('./fn/common/postAvoidDuplicate');
 console.log("sftblw_bot running");
 
 var stream = T.stream('user', {});
+var randomImage = require('./fn/randomImage');
+var randomReply = require('./fn/randomReply');
 
 
 ///////////////////////////////////
@@ -18,6 +19,7 @@ stream.on('tweet', function (msg) {
     //dummyMention(msg);
     if (!help(msg)) {
       randomImage.processAll(msg);
+      randomReply(msg);
     }
 });
 //

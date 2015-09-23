@@ -4,7 +4,7 @@ var die = require('./common/die');
 var poster = require('./common/postAvoidDuplicate');
 
 module.exports = function (msg) {
-    var helpMsg = "사용 가능 명령어 : 짤방, 캡처, 움짤, 목록갱신, 살아있니, 도움말, 주거랏 (관리자용)";
+    var helpMsg = "사용 가능 명령어 : 짤방, 캡처, 움짤, 목록갱신, 예아니오, 살아있니, 도움말, 주거랏 (관리자용)";
     //console.dir(msg, {depth:0, colors: true});
     if ((!filter.isRetweet(msg)) && filter.isMention(msg, "sftblw") ) {
       if (msg.text.search(helpMsg.slice(0, 10)) === -1) { // 도움말 메시지가 그대로 전달되지 않은 경우
