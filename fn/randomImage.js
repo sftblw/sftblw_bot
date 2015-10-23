@@ -32,6 +32,8 @@ function RandomImagePoster(dir, format, command, callback) {
         T.post('statuses/update', params, function (err, data, response) {
           //console.log(data)
           if (err) {
+            poster("이미지 " + imgFile.name + " 를 업로드하는데 실패했습니다.");
+            err.imgDir = imgFile.dir;
             die(err);
           }
         });
