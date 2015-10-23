@@ -19,7 +19,7 @@ function RandomImagePoster(dir, format, command, callback) {
       && (!filter.isRetweet(msg)))
     {
 
-      imgFile = this.imgList[Math.floor(Math.random()*this.imgList.length)];
+      var imgFile = this.imgList[Math.floor(Math.random()*this.imgList.length)];
       var b64img = fs.readFileSync(imgFile.dir, {encoding: 'base64'});
 
       // first we must post the media to Twitter
