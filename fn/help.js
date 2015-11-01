@@ -4,7 +4,7 @@ var die = require('./common/die');
 var poster = require('./common/postAvoidDuplicate');
 
 module.exports = function (msg) {
-    var helpMsg = "사용 가능 명령어 : 짤방, 캡처, 움짤, 목록갱신, 예아니오, 살아있니, 도움말, 주거랏 (관리자용)";
+    var helpMsg = '가능한 명령어는 {"도움말", "짤방", "캡처", "움짤", "예아니오"} 입니다. 상세 도움말은 도움말.명령어를 멘션하세요. (준비중)';
     //console.dir(msg, {depth:0, colors: true});
     if ((!filter.isRetweet(msg)) && filter.isMention(msg, "sftblw") ) {
       if (msg.text.search(helpMsg.slice(0, 10)) === -1) { // 도움말 메시지가 그대로 전달되지 않은 경우
@@ -14,10 +14,10 @@ module.exports = function (msg) {
               if (err) die(err);
           });
           return true;
-        } else if (msg.text.search("살아있니") !== -1) {
+        } else if (filter.hasCommand(['살아있니', '싸라있니'])) {
           poster("씨에이치-봇은 살아있습니다. @sftblw");
           return true;
-        } else if ((msg.text.search("주거랏") !== -1) && (filter.fromUser(msg, "sftblw"))) {
+        } else if (filter.hasCommand(['주거랏', '죽어라', '주거라']) && (filter.fromUser(msg, "sftblw"))) {
           poster("씨에이치-봇, 그 명을 받들고 죽겠사옵니다... (비장) @sftblw");
           die({"error":"suicided."});
         }
