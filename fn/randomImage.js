@@ -1,52 +1,59 @@
 var filter = require('./common/filterTweet');
 var T = require('./common/tweetInstance');
-var dirVisit = require("./common/directoryVisitor");
+var dirVisit = require('./common/directoryVisitor');
 var fs = require('fs');
 var poster = require('./common/postAvoidDuplicate');
 var die = require('./common/die');
 
-//var baseDir = "/media/networkshare/ccwpc/DaumCloud/사진/desktop/짤방";
-//var baseDir = "D:/Clouds/DaumCloud/사진/desktop/짤방";
+// var baseDir = "/media/networkshare/ccwpc/DaumCloud/사진/desktop/짤방";
+// var baseDir = "D:/Clouds/DaumCloud/사진/desktop/짤방";
 
-//console.dir(imgList);
-function RandomImagePoster(dir, format, command, callback) {
-  this.baseDir = dir;
-  this.format = format;
-  this.imgList = makeImageFileList(format, dir);
-  this.post = function (msg) {
-    if(filter.isMention(msg, "sftblw")
-      && (msg.text.search(command) !== -1)
-      && (!filter.isRetweet(msg)))
-    {
+// console.dir(imgList);
+function RandomImagePoster (dir, format, command, callback) {
+	this.baseDir = dir;
+	this.format = format;
+	this.imgList = makeImageFileList(format, dir);
 
-      var imgFile = this.imgList[Math.floor(Math.random()*this.imgList.length)];
-      var b64img = fs.readFileSync(imgFile.dir, {encoding: 'base64'});
+	fs.watch(this.baseDir, {persistent: true, recursive: true}, function (event, filename) {
+		console.log('파일 변경 : ' + event);
+		this.imgList = makeImageFileList(format, dir);
+		poster(command + '의 파일 목록이 변경되었습니다.\n이미지 전체 목록을 갱신했습니다. 아마도요.');
+	});
+
+	this.post = function (msg) {
+		if (
+			filter.isMention(msg, 'sftblw') &&
+      filter.hasCommand(msg, command) &&
+      (!filter.isRetweet(msg))) {
+
+			var imgFile = this.imgList[Math.floor(Math.random() * this.imgList.length)];
+			var b64img = fs.readFileSync(imgFile.dir, {encoding: 'base64'});
 
       // first we must post the media to Twitter
-      T.post('media/upload', { media_data: b64img }, function (err, data, response) {
-
+			T.post('media/upload', { media_data: b64img }, function (err, data, response) {
+				if (err) {
+					die(err);
+				}
         // now we can reference the media and post a tweet (media will attach to the tweet)
-        var mediaIdStr = data.media_id_string
-        var params = { status: "@" + msg.user.screen_name + " " + imgFile.name, media_ids: [mediaIdStr], in_reply_to_status_id: msg.id_str };
+				var mediaIdStr = data.media_id_string;
+				var params = { status: '@' + msg.user.screen_name + ' ' + imgFile.name, media_ids: [mediaIdStr], in_reply_to_status_id: msg.id_str };
 
-        T.post('statuses/update', params, function (err, data, response) {
-          //console.log(data)
-          if (err) {
-            poster("이미지 " + imgFile.name + " 를 업로드하는데 실패했습니다.");
-            err.imgDir = imgFile.dir;
-            die(err);
-          }
-        });
-      });
-    }
+				T.post('statuses/update', params, function (err, data, response) {
+					// console.log(data)
+					if (err) {
+						die(err);
+					}
+				});
+			});
+		}
     // if end
-  };
+		if (callback !== undefined) {
+			callback(msg);
+		}
+	};
   // post function end
-  if (callback !== undefined) {
-    callback(msg);
-  }
-}
 
+}
 
 var posterManager = {
   newRandomImagePoster : function (dir, format, command, callback) {
