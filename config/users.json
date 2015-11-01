@@ -1,0 +1,12 @@
+[
+	{
+		"access_token": "your access token",
+		"access_token_secret": "your access token secret",
+		"rules": [
+			"sftblw/help.js",
+			"sftblw/randomImage.js",
+			"sftblw/randomReply.js",
+			"sftblw/scheduledTweet.js"
+		]
+	}
+]

@@ -4,7 +4,8 @@
     "private": true,
     "dependencies": {
         "twit": ">=0.0.1",
-        "node-schedule" : ">=0.2.8"
+        "node-schedule" : ">=0.2.8",
+        "makise": "*"
     },
     "scripts": {
         "start": "node app.js"
