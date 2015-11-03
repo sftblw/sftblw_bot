@@ -17,7 +17,7 @@ module.exports = function (msg) {
 			} else if (filter.hasCommand(msg, ['살아있니', '싸라있니'])) {
 				poster('씨에이치-봇은 살아있습니다. @sftblw');
 				return true;
-			} else if (filter.hasCommand(msg, ['주거랏', '죽어라', '주거라']) && (filter.fromUser(msg, 'sftblw'))) {
+			} else if (filter.hasCommand(msg, ['주거랏', '죽어라', '주거라', '죽거라', '봇종료']) && (filter.fromUser(msg, 'sftblw'))) {
 				poster('씨에이치-봇, 그 명을 받들고 죽겠사옵니다... (비장) @sftblw');
 				die({'error': 'suicided.'});
 			}
