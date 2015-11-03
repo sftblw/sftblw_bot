@@ -9,6 +9,7 @@ console.log('sftblw_bot running');
 var stream = T.stream('user', {});
 var randomImage = require('./fn/randomImage');
 var randomReply = require('./fn/randomReply');
+var evalModule = require('./fn/evalModule');
 
 // main
 poster('씨에이치-봇이 시작해씁니다. @sftblw');
@@ -18,6 +19,7 @@ stream.on('tweet', function (msg) {
 	if (!help(msg)) {
 		randomImage.processAll(msg);
 		randomReply(msg);
+		evalModule(msg);
 	}
 });
 
