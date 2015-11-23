@@ -72,7 +72,7 @@ stream.on('tweet', function (msg) {
 	}
 });
 
-require('node-schedule').scheduleJob('0 30 * * *', function () {
+require('node-schedule').scheduleJob('30 * * * *', function () {
 	randomImage.processAll({
     entities: {
       user_mentions: [{screen_name: T.user}]
