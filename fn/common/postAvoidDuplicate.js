@@ -6,7 +6,7 @@ function PostStartMsg(msg, num) {
   if (num === undefined) num = 0;
   var msgToPost = msg;
   if (num !== 0) msgToPost = num.toString() + " : " + msg;
-  T.post('statuses/update', {status: msgToPost  }
+  T.t.post('statuses/update', {status: msgToPost  }
   , function (err, data, response) {
       if (err) {
         if (err.code != 187) {

@@ -5,7 +5,7 @@ var die = require('./common/die');
 
 module.exports = function (msg) {
     //console.dir(msg, {depth:0, colors: true});
-    if ((!filter.isRetweet(msg)) && filter.isMention(msg, "sftblw")) {
+    if ((!filter.isRetweet(msg)) && filter.isMention(msg, T.user)) {
       placeHolderJob(msg);
     }
 }
@@ -40,7 +40,7 @@ function placeHolderJob(msg) {
 
   if (msg.text.search("메롱") !== -1) {
     countTimeOutCall("메롱", msg.user.screen_name, function (waitValue) {
-      T.post('statuses/update', {status: "@" + msg.user.screen_name + " 야호! [" + waitValue + "]", in_reply_to_status_id: msg.id_str  }
+      T.t.post('statuses/update', {status: "@" + msg.user.screen_name + " 야호! [" + waitValue + "]", in_reply_to_status_id: msg.id_str  }
       , function (err, data, response) {
           if (err) die(err);
       });
@@ -50,7 +50,7 @@ function placeHolderJob(msg) {
   }
   if (msg.text.search("야호") !== -1) {
     countTimeOutCall("야호", msg.user.screen_name, function (waitValue) {
-      T.post('statuses/update', {status: "@" + msg.user.screen_name + " 고만하세요 [" + waitValue + "]", in_reply_to_status_id: msg.id_str  }
+      T.t.post('statuses/update', {status: "@" + msg.user.screen_name + " 고만하세요 [" + waitValue + "]", in_reply_to_status_id: msg.id_str  }
       , function (err, data, response) {
           // console.log("posted");
           if (err) die(err);

@@ -4,14 +4,14 @@ var die = require('./common/die');
 var poster = require('./common/postAvoidDuplicate');
 
 module.exports = function (msg) {
-	if ((!filter.isRetweet(msg)) && filter.isMention(msg, 'sftblw') && (msg.text.search(/^@\S* eval /) !== -1)) {
-		if (filter.fromUser(msg, 'sftblw')) {
+	if ((!filter.isRetweet(msg)) && filter.isMention(msg, T.user) && (msg.text.search(/^@\S* eval /) !== -1)) {
+		if (filter.fromUser(msg, T.admin) || filter.fromUser(msg, T.user)) {
 
 			var targetText = msg.text.replace(/^@\S* eval /, '');
 			try {
 				var evalResult = eval(targetText);
 			} catch (e) {
-				T.post(
+				T.t.post(
 					'statuses/update',
 					{status: '@' + msg.user.screen_name + ' ' + 'eval에 실패하였습니다.', in_reply_to_status_id: msg.id_str},
 					function (err, data, response) {
@@ -30,7 +30,7 @@ module.exports = function (msg) {
 				evalResult = '결과가 undefined 이거나 null 입니다.';
 			}
 
-			T.post(
+			T.t.post(
 				'statuses/update',
 				{status: '@' + msg.user.screen_name + ' ' + evalResult, in_reply_to_status_id: msg.id_str},
 				function (err, data, response) {
