@@ -1,4 +1,4 @@
-// settings
+﻿// settings
 var T = require('./fn/common/tweetInstance');
 T.setKey('sftalw.json');
 T.user = 'sftalw';
@@ -16,7 +16,7 @@ var replier = require('./fn/replier');
 console.log('sftblw_bot booting... : ' + T.user);
 poster('씨에이치-봇이 기동 준비중입니다. @' + T.admin);
 
-var baseDir = '/media/networkshare/ccwpc/hitomiapp/dl2/';
+var baseDir = '/media/netdrive/ccwpc/hitomiapp/dl2/';
 // var baseDir = 'D:/Clouds/DaumCloud/사진/desktop/';
 // var baseDir = 'D:/DaumCloud/사진/desktop/';
 var commonFormat = ['.png', '.jpg', '.gif'];
@@ -72,7 +72,7 @@ stream.on('tweet', function (msg) {
 	}
 });
 
-require('node-schedule').scheduleJob('0 30 * * *', function () {
+require('node-schedule').scheduleJob('30 * * * *', function () {
 	randomImage.processAll({
     entities: {
       user_mentions: [{screen_name: T.user}]

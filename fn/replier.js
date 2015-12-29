@@ -34,6 +34,7 @@ module.exports = function (msg, condition, reply) {
 			, function (err, data, response) {
 				if (err) die(err);
 			});
+			return true;
 		}
 	}
 };

@@ -1,4 +1,4 @@
-var filter = require('./common/filterTweet');
+﻿var filter = require('./common/filterTweet');
 var T = require('./common/tweetInstance');
 var dirVisit = require('./common/directoryVisitor');
 var fs = require('fs');
@@ -50,7 +50,7 @@ function RandomImagePoster (dir, format, command, callback) {
 							params.in_reply_to_status_id = msg.id_str;
 							params.status = '@' + msg.user.screen_name + ' ' + params.status;
 						}
-						T.t.post('status/update', params, function (err, data, response) {
+						T.t.post('statuses/update', params, function (err, data, response) {
 							if (err) die(err);
 						});
 					}
