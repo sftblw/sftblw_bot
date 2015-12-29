@@ -65,7 +65,6 @@ require('node-schedule').scheduleJob('0 * * * *', function () {
 	} else {
 		var time = new Date().getHours();
 		var tweet = '현재 ' + (time < 12 ? '오전 ' + time.toString() : '오후 ' + ((time == 12) ? 12 : (time % 12)).toString()) + '시 입니다' + ['☆', '★', '♡', '♥', '♪', '♬', '♩'][(Math.random() * 7) | 0];
-
 		poster(tweet);
 	}
 });
