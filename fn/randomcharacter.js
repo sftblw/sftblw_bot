@@ -61,7 +61,8 @@ module.exports = function () {
 		},
 
 		reload: function () {
-			this.initialize(this.dataDir, this.imageDir);
+			//name, charactersJSONPath, imageDir, command
+			this.initialize(this.name, this.charactersJSONPath, this.imageDir, this.command);
 		},
 
 		process: function (msg) {
