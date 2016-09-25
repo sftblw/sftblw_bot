@@ -1,6 +1,6 @@
 {
-    "name": "chbot",
-    "version": "0.0.1",
+    "name": "sftblw_bot",
+    "version": "2016_09_25",
     "private": true,
     "dependencies": {
         "twit": ">=0.0.1",

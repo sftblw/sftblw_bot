@@ -8,7 +8,7 @@ module.exports = {
 			// return true when it is needed to respond
 			function (msg) {
 				if (
-					(msg.text.search('안녕') !== -1) &&
+					(msg.text.search(/(안녕|반[가갑]|하이|hi|hello)/) !== -1) &&
 					(!filter.fromUser(msg, T.user))
 				) return true;
 			},

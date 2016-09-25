@@ -43,6 +43,10 @@ var dereste = require('./jobs/dereste');
 var hello = require('./jobs/hello');
 var vs = require('./jobs/vs');
 
+var randomcharacter = require('./fn/randomcharacter');
+var touhouRandomCharacter = randomcharacter(); // new (...) ugly.
+touhouRandomCharacter.initialize('랜덤동방', './res/touhou_character.json', './res/touhou_character/', '랜덤동방');
+
 stream.on('tweet', function (msg) {
 	// dummyMention(msg);
 	if (!help.do(msg)) {
@@ -55,6 +59,8 @@ stream.on('tweet', function (msg) {
 
 		hello.hello(msg);
 		vs.vs(msg);
+
+		touhouRandomCharacter.process(msg);
 	}
 });
 
@@ -65,6 +71,7 @@ require('node-schedule').scheduleJob('0 * * * *', function () {
 	} else {
 		var time = new Date().getHours();
 		var tweet = '현재 ' + (time < 12 ? '오전 ' + time.toString() : '오후 ' + ((time == 12) ? 12 : (time % 12)).toString()) + '시 입니다' + ['☆', '★', '♡', '♥', '♪', '♬', '♩'][(Math.random() * 7) | 0];
+
 		poster(tweet);
 	}
 });

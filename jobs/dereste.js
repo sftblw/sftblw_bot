@@ -6,13 +6,13 @@ module.exports = {
 		replier(msg,
 			function (msg) {
 				if (
-					(msg.text.search(/^.*@\S* 그루브버스트 /) !== -1)
+					(msg.text.search(/^.*@\S* 그루브(버스트)? /) !== -1)
 				) return true;
 			},
 			function (msg) {
 				try {
 					var txt = msg.text;
-					txt = txt.replace(/^.*@\S* 그루브버스트 /, '');
+					txt = txt.replace(/^.*@\S* 그루브(버스트)? /, '');
 					var time = Number.parseInt(txt);
 					var d = new Date();
 					d.setMinutes(d.getMinutes() + (50 - time) * 5);
@@ -31,12 +31,12 @@ module.exports = {
 	'stamina': function (msg) {
 		replier(msg, function (msg) {
 			if (
-				(msg.text.search(/^.*@\S* 스테미너 /) !== -1)
+				(msg.text.search(/^.*@\S* 스[테태]미[너나] /) !== -1)
 			) return true;
 		}, function (msg) {
 			try {
 				var txt = msg.text;
-				txt = txt.replace(/^.*@\S* 스테미너 /, '');
+				txt = txt.replace(/^.*@\S* 스[테태]미[너나] /, '');
 				var txts = txt.split('/');
 				var time = Number.parseInt(txts[0]);
 				var maxTime = Number.parseInt(txts[1]);

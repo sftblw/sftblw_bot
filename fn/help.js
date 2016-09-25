@@ -15,8 +15,15 @@ module.exports = {
 						if (err) die(err);
 					});
 					return true;
-				} else if (filter.hasCommand(msg, ['살아있니', '싸라있니'])) {
-					poster('씨에이치-봇은 살아있습니다. @sftblw');
+				} else if (filter.hasCommand(msg, ['살아있', '싸라있'])) {
+					T.t.post('statuses/update', {status:
+						'씨에이치-봇은 살아있습니다.' + ' @'+ msg.user.screen_name + ' @' + T.admin
+						, in_reply_to_status_id: msg.id_str
+					}
+					, function (err, data, response) {
+						if (err) die(err);
+					});
+					poster();
 					return true;
 				} else if (filter.hasCommand(msg, ['주거랏', '죽어라', '주거라', '죽거라', '봇종료']) && (filter.fromUser(msg, T.user) || filter.fromUser(msg, T.admin))) {
 					poster('씨에이치-봇, 그 명을 받들고 죽겠사옵니다... (비장) @' + T.admin);
