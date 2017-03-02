@@ -1,4 +1,8 @@
+'use strict';
 var replier = require('../fn/replier');
+
+const select_normal = /^.*@\S* 선택 /g;
+const select_vs = /^.*@\S* .+?vs.+?/g;
 
 module.exports = {
 	'vs': function (msg) {
@@ -13,13 +17,18 @@ module.exports = {
 				if (msg.text.search('스테미너') !== -1) return false;
 				if (msg.text.search('그루브버스트') !== -1) return false;
 				if (
-					(msg.text.search(/^.*@\S* 선택 /) !== -1)
+					(msg.text.search(select_normal) !== -1)
+				) return true;
+				if (
+					(msg.text.search(select_vs) !== -1)
 				) return true;
 			},
 			function (msg) {
 				try {
 					var txt = msg.text;
-					txt = txt.replace(/^.*@\S* 선택 /, '');
+					txt = txt.replace(/^.*@\S*( 선택)?/, '');
+					txt = txt.replace(/선택/g, '');
+					txt = txt.replace(/eval/g, '');
 					var vsList = txt.split('vs');
 					for (var i = 0; i < vsList.length; i++) {
 						vsList[i] = vsList[i].trim();

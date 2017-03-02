@@ -5,7 +5,7 @@ var poster = require('./common/postAvoidDuplicate');
 
 module.exports = function (msg) {
 	if ((!filter.isRetweet(msg)) && filter.isMention(msg, T.user) && (msg.text.search(/^@\S* eval /) !== -1)) {
-		if (filter.fromUser(msg, T.admin) || filter.fromUser(msg, T.user)) {
+		if (filter.fromUser(msg, T.admin)) {
 
 			var targetText = msg.text.replace(/^@\S* eval /, '');
 			try {

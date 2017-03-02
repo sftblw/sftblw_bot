@@ -1,12 +1,16 @@
 {
-    "name": "sftblw_bot",
-    "version": "2016_09_25",
-    "private": true,
-    "dependencies": {
-        "twit": ">=0.0.1",
-        "node-schedule" : ">=0.2.8"
-    },
-    "scripts": {
-        "start": "node app.js"
-    }
+  "name": "sftblw_bot",
+  "version": "2017_03_03",
+  "private": true,
+  "dependencies": {
+    "@types/twit": "^2.2.4",
+    "feedparser": "^1.1.5",
+    "node-json-db": "^0.7.3",
+    "node-schedule": ">=0.2.8",
+    "request": "^2.75.0",
+    "twit": "^2.2.5"
+  },
+  "scripts": {
+    "start": "node js/sftblw_bot.js"
+  }
 }

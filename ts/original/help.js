@@ -23,6 +23,7 @@ module.exports = {
 					, function (err, data, response) {
 						if (err) die(err);
 					});
+					poster();
 					return true;
 				} else if (filter.hasCommand(msg, ['주거랏', '죽어라', '주거라', '죽거라', '봇종료']) && (filter.fromUser(msg, T.user) || filter.fromUser(msg, T.admin))) {
 					poster('씨에이치-봇, 그 명을 받들고 죽겠사옵니다... (비장) @' + T.admin);
