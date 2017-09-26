@@ -1,6 +1,6 @@
 import { Twitter } from 'twit';
 import { Job } from './job';
-import { TwManager } from './tw_manager';
+import { TwitApiWrapper } from './tw_api_wrapper';
 
 export class Context {
   before?: {
@@ -8,9 +8,9 @@ export class Context {
     job?: Job;
   }
   status?: Twitter.Status;
-  private tw: TwManager;
+  private tw: TwitApiWrapper;
 
-  constructor(twManager: TwManager) {
+  constructor(twManager: TwitApiWrapper) {
     this.tw = twManager;
   }
 

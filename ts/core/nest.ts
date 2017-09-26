@@ -1,7 +1,7 @@
 import * as Twit from 'twit';
 
 import { Job } from "./Job"
-import { TwManager } from "./tw_manager"
+import { TwitApiWrapper } from "./tw_api_wrapper"
 import { Context } from './context'
 
 interface BotConfig {
@@ -11,10 +11,10 @@ interface BotConfig {
 
 export default class Nest {
   public config: BotConfig;
-  private twManager:TwManager = null;
+  private twManager:TwitApiWrapper = null;
 
   constructor(key: Twit.Options, botConfig: BotConfig) {
-    this.twManager = new TwManager(key);
+    this.twManager = new TwitApiWrapper(key);
     this.config = botConfig
 
     // subscribe stream
