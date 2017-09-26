@@ -1,6 +1,6 @@
 {
   "name": "sftblw_bot",
-  "version": "2017_03_03",
+  "version": "0.0.1",
   "private": true,
   "dependencies": {
     "@types/twit": "^2.2.4",
